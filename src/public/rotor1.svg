@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg 
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210" 
+   height="300"
+   version="1.0"
+   >
+
+  <g  >
+    <!-- bounding stuff -->
+    <rect  width="210" height="250" stroke="#666666" stroke-width="3"  fill="rgb(255, 255, 255)" x="0" y="50" />
+    
+    <!-- Left Nodes --> 
+    <rect  width="50" height="50" stroke="#666666" stroke-width="3"  fill="rgb(255, 255, 255)" x="10" y="50" />
+    <rect  width="50" height="50" stroke="#666666" stroke-width="3"  fill="rgb(255, 255, 255)" x="10" y="100" />
+    <rect  width="50" height="50" stroke="#666666" stroke-width="3"  fill="rgb(255, 255, 255)" x="10" y="150" />
+    <rect  width="50" height="50" stroke="#666666" stroke-width="3"  fill="rgb(255, 255, 255)" x="10" y="200" />
+    <rect  width="50" height="50" stroke="#666666" stroke-width="3"  fill="rgb(255, 255, 255)" x="10" y="250" />
+
+    <!-- Right Nodes --> 
+    <rect  width="50" height="50" stroke="#666666" stroke-width="3"  fill="rgb(255, 255, 255)" x="150" y="50" />
+    <rect  width="50" height="50" stroke="#666666" stroke-width="3"  fill="rgb(255, 255, 255)" x="150" y="100" />
+    <rect  width="50" height="50" stroke="#666666" stroke-width="3"  fill="rgb(255, 255, 255)" x="150" y="150" />
+    <rect  width="50" height="50" stroke="#666666" stroke-width="3"  fill="rgb(255, 255, 255)" x="150" y="200" />
+    <rect  width="50" height="50" stroke="#666666" stroke-width="3"  fill="rgb(255, 255, 255)" x="150" y="250" />
+
+    <!-- edges --> 
+    <!-- (60, 75 + ((block# - 1) * 50)) , (150, 25 + ((block# - 1) * 50)-->
+    <polyline points="60,75, 150,125" style="fill:none;stroke:#aaa;stroke-width:3" />
+    <polyline points="60,175, 150,75" style="fill:none;stroke:#00b;stroke-width:3" />
+    <polyline points="60,225, 150,225" style="fill:none;stroke:#aaa;stroke-width:3" />
+    <polyline points="60,125, 150,175" style="fill:none;stroke:#aaa;stroke-width:3" />
+    <polyline points="60,275, 150,275" style="fill:none;stroke:#aaa;stroke-width:3" />
+ 
+    <text x="25" y="185">A</text> 
+    <text x="165" y="85">B</text> 
+  </g>
+</svg>
