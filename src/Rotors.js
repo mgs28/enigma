@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState } from 'react';
 
+//Question: I hate the global functions and the global consts. Any way to get away from them? 
+
 //init the three rotors 
 const letters_index = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25];
 const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
@@ -15,8 +17,32 @@ function index_to_character(idx){
   }
   //else
   return ''; 
-  
 }
+
+function character_to_idx(c){
+  //can be smarter than this but it is only 26 letters
+  for(var i=0;i<letters.length;i++){
+    if(letters[i] == c){
+      return i;
+    }
+  }
+
+  return null;
+}
+
+//c is a character to reverse lookup in the rotor r
+function inverse_cipher(c, r){
+  //Question: Can I make this more efficient? It's only 26 characters so it is not important right now.
+
+  for(var i =0;i<r.length;i++){
+      if(r[i]==c){
+        return i;
+      }
+  }
+
+  return null;
+}
+
 
 function Keypad({config, onLetterClick, input}){
 
@@ -25,9 +51,9 @@ function Keypad({config, onLetterClick, input}){
   //Question: Is this the right place to define the arrow function? I'm not sure if it causing multiple renders. However, I 
   //need to pass in each key to record the right input and I only know that here
 
-  const listwires = config.map((number, i) => {
-        let isInput = number == input ? true : false;  
-        return (<button className={isInput ? "square_clicked" : "square"} key={query_index[i]} onClick={() => onLetterClick(number)} value={query_index[i]}>{number}</button>);
+  const listwires = config.map((letter, i) => {
+        let isInput = (letter == input ? true : false);  
+        return (<button className={isInput ? "square_clicked" : "square"} key={query_index[i]} onClick={() => onLetterClick(letter)} value={query_index[i]}>{letter}</button>);
     }
   );
 
@@ -52,7 +78,19 @@ function Keypad({config, onLetterClick, input}){
 function Rotor({config, IO, name}){
 
   const listwires = config.map((number, i) => {
-      return (<polyline key={i} points={"30, " + (57+(number*10)) + ", 100," + (57+(i*10))} stroke="#aaa" strokeWidth="2" />);
+      let isActiveLtoR = (number==IO[1]) ;
+      let isActiveRtoL = (number==IO[2]) ;
+      
+      let color = "#ddd"; 
+      let stroke = 2;
+      if(isActiveLtoR){
+        color = "#eba90f"; 
+        stroke = 3;
+      }else if (isActiveRtoL){
+        color = "#f00"
+        stroke = 3;
+      } 
+      return (<polyline key={i} points={"30, " + (57+(number*10)) + ", 100," + (57+(i*10))} stroke={color} strokeWidth={stroke} />);
     }
   );
 
@@ -143,11 +181,11 @@ function Rotor({config, IO, name}){
     {/* <!-- mapping: always ordered left, right, arrow -->  */}
     <text x="10" y="340">{index_to_character(IO[1])}</text> 
     <text x="100" y="340">{index_to_character(IO[0])}</text> 
-    <line x2="50" y2="335" x1="80" y1="335"  stroke="#000" strokeWidth="2  " markerEnd="url(#arrowhead)" />
+    <line x2="50" y2="335" x1="80" y1="335"  stroke="#eba90f" strokeWidth="2  " markerEnd="url(#arrowhead)" />
 
     <text x="10" y="370">{index_to_character(IO[2])}</text> 
     <text x="100" y="370">{index_to_character(IO[3])}</text> 
-    <line x1="50" y1="365" x2="80" y2="365"  stroke="#000" strokeWidth="2  " markerEnd="url(#arrowhead)" />
+    <line x1="50" y1="365" x2="80" y2="365"  stroke="#f00" strokeWidth="2  " markerEnd="url(#arrowhead)" />
 
 
   </g>
@@ -160,6 +198,7 @@ export default function Rotors() {
 
   function shuffle(array_input) {
     var array = array_input.slice();
+    //Question: Not a huge fan of these for loops. Any better alternative? 
     for (let i = array.length - 1; i > 0; i--) {
       let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
   
@@ -175,6 +214,38 @@ export default function Rotors() {
 
   function handleLetterClick(i){
     setInput(i);
+
+    //remember to make the data updates immutable. 
+    const nextRotorsIO1 = rotorIO1.slice();
+    const nextRotorsIO2 = rotorIO2.slice();
+    const nextRotorsIO3 = rotorIO1.slice();
+    const input_idx = character_to_idx(i);
+
+
+    nextRotorsIO1[0] = input_idx;
+    nextRotorsIO1[1] = rotor1[nextRotorsIO1[0]];
+
+    nextRotorsIO2[0] = nextRotorsIO1[1]; 
+    nextRotorsIO2[1] = rotor2[nextRotorsIO2[0]];
+
+    nextRotorsIO3[0] = nextRotorsIO2[1]; 
+    nextRotorsIO3[1] = rotor3[nextRotorsIO3[0]];
+
+    //Shifting as a placeholder for rotors 
+    let reflectorOut = (nextRotorsIO3[1]+1) % 26;
+
+    nextRotorsIO3[2] = reflectorOut;
+    nextRotorsIO3[3] = inverse_cipher(nextRotorsIO3[2],rotor3);
+
+    nextRotorsIO2[2] = nextRotorsIO3[3];
+    nextRotorsIO2[3] = inverse_cipher(nextRotorsIO2[2],rotor2);
+
+    nextRotorsIO1[2] = nextRotorsIO2[3];
+    nextRotorsIO1[3] = inverse_cipher(nextRotorsIO1[2],rotor1);
+
+    setRotorIO1(nextRotorsIO1);
+    setRotorIO2(nextRotorsIO2);
+    setRotorIO3(nextRotorsIO3);
   }
 
   const [rotor1, setRotor1] = useState(shuffle(letters_index));
@@ -183,9 +254,9 @@ export default function Rotors() {
   const [input, setInput] = useState(null);
 
   //IO are (R->L Input, R->L Output, L->R Input, L->R Output)
-  const [rotorIO1, setRotorIO1] = useState([1, 2, 3, 4]);
-  const [rotorIO2, setRotorIO2] = useState([5,6,7,8]);
-  const [rotorIO3, setRotorIO3] = useState([9,10,11,12]);
+  const [rotorIO1, setRotorIO1] = useState([null, null, null, null]);
+  const [rotorIO2, setRotorIO2] = useState([null, null, null, null]);
+  const [rotorIO3, setRotorIO3] = useState([null, null, null, null]);
 
   /* 
   console.log(rotor1);
@@ -205,7 +276,7 @@ export default function Rotors() {
             Input:    
             <button className="output">{input}</button>
             Output:    
-            <button className="output"> </button>
+            <button className="output">{index_to_character(rotorIO1[3])} </button>
 
           </div>
           <br/>

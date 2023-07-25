@@ -95,3 +95,24 @@ In the above example, rotor1 maps A to E (0 to 4) but on return we need to look 
     const rotor1_inv = [8,16,6,17,0,11,7,15,3,14,10,13,24,18,4,5,9,1,20,2,12,25,21,23,22,19]
 
 
+# Algorithm 
+
+Alright, it's the fun part, let's cipher some text! This is really three major operations. 
+
+0. Copy the value from the input or last rotor
+1. Cipher the value according to lookup values (right to left direction)
+2. Use the inverse of the cipher (easy version is a function but could be cached for a larger alphabet)
+
+Heres the code snippet for Rotor1  
+
+    nextRotorsIO1[0] = input_idx;
+    nextRotorsIO1[1] = rotor1[nextRotorsIO1[0]];
+
+    ...
+
+    nextRotorsIO1[2] = nextRotorsIO2[3];
+    nextRotorsIO1[3] = inverse_cipher(nextRotorsIO1[2],rotor1);
+
+I also added some color highlighting to make the rotors pop from left to right. 
+
+The reflector is hard coded at the moment.  
