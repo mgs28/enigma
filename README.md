@@ -19,7 +19,7 @@ An [Enigma machine](https://en.wikipedia.org/wiki/Enigma_machine)  a cipher devi
 
 Here's a diagram from the Wikipedia link showing a wiring diagram. 
 
-![enigma picture](https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Enigma_wiring_kleur.svg/1024px-Enigma_wiring_kleur.svg.png)
+![enigma picture](https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Enigma-action.svg/400px-Enigma-action.svg.png)
 
 To explain the Enigma, we use this wiring diagram. To simplify the example, only four components of each are shown. In reality, there are 26 lamps, keys, plugs and wirings inside the rotors. The current flows from the battery (1) through the depressed bi-directional letter-switch (2) to the plugboard (3). The plugboard allows rewiring the connections between keyboard (2) and fixed entry wheel (4). Next, the current proceeds through the—unused, so closed—plug (3) via the entry wheel (4) through the wirings of the three (Wehrmacht Enigma) or four (Kriegsmarine M4 or Abwehr variant) rotors (5) and enters the reflector (6). The reflector returns the current, via a different path, back through the rotors (5) and entry wheel (4), and proceeds through plug 'S' connected with a cable (8) to plug 'D', and another bi-directional switch (9) to light-up the lamp.
 
