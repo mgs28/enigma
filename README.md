@@ -1,6 +1,7 @@
 # Install Notes
 
 $ npm install
+
 $ npm start 
 
 # Problem
@@ -69,7 +70,13 @@ Text elements
 Polylines 
 
         <polyline points="30,77 , 100,57" style="fill:none;stroke:#aaa;stroke-width:2" />
- 
+
+## Keypads
+
+The input keypad is a simple thing. It takes as input a string of characters and plot them in three rows reusing objects from the [tic-tac-toe tutorial](https://react.dev/learn/tutorial-tic-tac-toe). That gives the basic layout with some padding divs so that it looks a little more like a keyboard. Interestingly, in the 1940 model enigma machines there are no puncuation or spaces. 
+
+Onclick events are handled the usual way to highlight the key and start the encoding. Output is displayed in a box.
+
 
 # Data structures
 

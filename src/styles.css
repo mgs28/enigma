@@ -56,8 +56,37 @@ body {
   padding: 0;
 }
 
+.output {
+  background: #fff;
+  border: 1px solid #999;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 34px;
+  height: 34px;
+  margin-left: 10px;
+  text-align: center;
+  width: 34px;
+}
+
 .square {
   background: #fff;
+  border: 1px solid #999;
+  color: #aaa; 
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 34px;
+  height: 34px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 34px;
+}
+
+
+.square_clicked {
+  background: #eba90f;
   border: 1px solid #999;
   float: left;
   font-size: 24px;
@@ -69,6 +98,20 @@ body {
   padding: 0;
   text-align: center;
   width: 34px;
+}
+
+.keypadbuff {
+  background: #fff;
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 34px;
+  height: 34px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 17px;
 }
 
 .board-row:after {

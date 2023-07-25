@@ -18,8 +18,38 @@ function index_to_character(idx){
   
 }
 
-function Rotor({config, IO, name}){
+function Keypad({config, onLetterClick, input}){
 
+  //Question: It feels silly to push input into this function to highlight the input key. Is there a better way? 
+
+  //Question: Is this the right place to define the arrow function? I'm not sure if it causing multiple renders. However, I 
+  //need to pass in each key to record the right input and I only know that here
+
+  const listwires = config.map((number, i) => {
+        let isInput = number == input ? true : false;  
+        return (<button className={isInput ? "square_clicked" : "square"} key={query_index[i]} onClick={() => onLetterClick(number)} value={query_index[i]}>{number}</button>);
+    }
+  );
+
+  return (
+    <div>
+      <div className="board-row">
+        {listwires.slice(0,10)}
+      </div>
+      <div className="board-row">
+        <div className="keypadbuff"/>
+        {listwires.slice(10,19)}
+      </div>
+      <div className="board-row">
+        <div className="keypadbuff"/>
+        <div className="keypadbuff"/>
+        {listwires.slice(19)}
+      </div>
+    </div>
+  );
+}
+
+function Rotor({config, IO, name}){
 
   const listwires = config.map((number, i) => {
       return (<polyline key={i} points={"30, " + (57+(number*10)) + ", 100," + (57+(i*10))} stroke="#aaa" strokeWidth="2" />);
@@ -143,27 +173,46 @@ export default function Rotors() {
     return array;
   }
 
+  function handleLetterClick(i){
+    setInput(i);
+  }
+
   const [rotor1, setRotor1] = useState(shuffle(letters_index));
   const [rotor2, setRotor2] = useState(shuffle(letters_index));
   const [rotor3, setRotor3] = useState(shuffle(letters_index));
+  const [input, setInput] = useState(null);
 
   //IO are (R->L Input, R->L Output, L->R Input, L->R Output)
   const [rotorIO1, setRotorIO1] = useState([1, 2, 3, 4]);
   const [rotorIO2, setRotorIO2] = useState([5,6,7,8]);
   const [rotorIO3, setRotorIO3] = useState([9,10,11,12]);
 
+  /* 
   console.log(rotor1);
   console.log(rotor2);
   console.log(rotor3);
+  */
 
-  //inputs 
-  const [input, setInput] = useState(1);
+  return (
+        <div>  
+          <div>
+              <Rotor config={rotor3} IO={rotorIO3} name="rotor3"/>
+              <Rotor config={rotor2} IO={rotorIO2} name="rotor2"/>
+              <Rotor config={rotor1} IO={rotorIO1} name="rotor1"/>
+          </div>
 
-    return (
-        <div>
-            <Rotor config={rotor3} IO={rotorIO3} name="rotor3"/>
-            <Rotor config={rotor2} IO={rotorIO2} name="rotor2"/>
-            <Rotor config={rotor1} IO={rotorIO1} name="rotor1"/>
+          <div className="board-row">
+            Input:    
+            <button className="output">{input}</button>
+            Output:    
+            <button className="output"> </button>
+
+          </div>
+          <br/>
+          <div>
+            <Keypad config={qwerty} onLetterClick={handleLetterClick} input={input}/>
+          </div>
+
         </div>
       );
 }
