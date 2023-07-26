@@ -115,4 +115,3 @@ Heres the code snippet for Rotor1
 
 I also added some color highlighting to make the rotors pop from left to right. 
 
-The reflector is hard coded at the moment.  
