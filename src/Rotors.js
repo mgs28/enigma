@@ -84,7 +84,7 @@ function Rotor({config, IO, name}){
       let color = "#ddd"; 
       let stroke = 2;
       if(isActiveLtoR){
-        color = "#eba90f"; 
+        color = "#ef8905"; 
         stroke = 3;
       }else if (isActiveRtoL){
         color = "#f00"
@@ -97,7 +97,7 @@ function Rotor({config, IO, name}){
     return (
     <svg 
     xmlns="http://www.w3.org/2000/svg"
-   width="150" 
+   width="120" 
    height="400"
    version="1.0"
    >
@@ -179,12 +179,12 @@ function Rotor({config, IO, name}){
     
 
     {/* <!-- mapping: always ordered left, right, arrow -->  */}
-    <text x="10" y="340">{index_to_character(IO[1])}</text> 
-    <text x="100" y="340">{index_to_character(IO[0])}</text> 
-    <line x2="50" y2="335" x1="80" y1="335"  stroke="#eba90f" strokeWidth="2  " markerEnd="url(#arrowhead)" />
+    <text x="25" y="340">{index_to_character(IO[1])}</text> 
+    <text x="85" y="340">{index_to_character(IO[0])}</text> 
+    <line x2="50" y2="335" x1="80" y1="335"  stroke="#ef8905" strokeWidth="2  " markerEnd="url(#arrowhead)" />
 
-    <text x="10" y="370">{index_to_character(IO[2])}</text> 
-    <text x="100" y="370">{index_to_character(IO[3])}</text> 
+    <text x="25" y="370">{index_to_character(IO[2])}</text> 
+    <text x="85" y="370">{index_to_character(IO[3])}</text> 
     <line x1="50" y1="365" x2="80" y2="365"  stroke="#f00" strokeWidth="2  " markerEnd="url(#arrowhead)" />
 
 
@@ -193,7 +193,86 @@ function Rotor({config, IO, name}){
 );
   }
   
+function Reflector({config, IO, name}){
 
+    const listwires = config.map((number, i) => {
+        let stroke = 2;
+        let color = "#aaa";
+        if(number == IO[1]){
+          color="#ef8905";
+          stroke=3;
+        }
+
+        //this helps visualize the reflector by separating the loops
+        let max = 80-(i*2);
+
+        return (<polyline key={i} points={"100, " + (57+(number*10)) + ", "+max+"," +(57+(number*10)) + ", "+max+"," + (57+(i*10)) + ", 100," + (57+(i*10))} fill="none" stroke={color} strokeWidth={stroke} />);
+      }
+    );
+  
+      return (
+      <svg 
+      xmlns="http://www.w3.org/2000/svg"
+     width="120" 
+     height="400"
+     version="1.0"
+     >
+    <defs>
+      <marker id="arrowhead" markerWidth="2" markerHeight="2" 
+      refX="2" refY="1.5" orient="auto">
+        <polygon points="0 0, 3 2, 0 4" />
+      </marker>
+    </defs>
+    <g >
+      
+      <rect  width="90" height="265" stroke="#666666" strokeWidth="3"  fill="rgb(255, 255, 255)" x="20" y="50" />
+
+  
+      {/* <!-- Right Nodes -->  */}
+      <g> 
+          <rect  x="100" y="55" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="65" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="75" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="85" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="95" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="105" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="115" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="125" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="135" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="145" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="155" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="165" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="175" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="185" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="195" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="205" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="215" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="225" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="235" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="245" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="255" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="265" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="275" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="285" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="295" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect  x="100" y="305" width="20" height="5" strokeWidth="0" fill="#aaa" />
+      </g> 
+   
+      {/* <!-- edges -->  */}
+      <g>
+          {listwires}
+      </g>  
+  
+      <text x="85" y="370">{index_to_character(IO[1])}</text> 
+      <text x="85" y="340">{index_to_character(IO[0])}</text> 
+      <polyline points="80,335, 50, 335, 50,370, 80, 370"  stroke="#ef8905" fill="none" strokeWidth="2  " markerEnd="url(#arrowhead)" />
+      <polyline points={"100, " + (57+(IO[1]*10)) + ", "+ (80-(2*IO[0])) +"," +(57+(IO[1]*10)) + ", "+ (80-(2*IO[0])) +"," + (57+(IO[0]*10)) + ", 100," + (57+(IO[0]*10))} fill="none" stroke="#ef8905" strokeWidth="2" />
+
+    </g>
+      </svg>
+  );
+}
+    
 export default function Rotors() {
 
   function shuffle(array_input) {
@@ -219,6 +298,7 @@ export default function Rotors() {
     const nextRotorsIO1 = rotorIO1.slice();
     const nextRotorsIO2 = rotorIO2.slice();
     const nextRotorsIO3 = rotorIO1.slice();
+    const nextReflectorIO = reflectorIO.slice();
     const input_idx = character_to_idx(i);
 
 
@@ -232,9 +312,11 @@ export default function Rotors() {
     nextRotorsIO3[1] = rotor3[nextRotorsIO3[0]];
 
     //Shifting as a placeholder for rotors 
-    let reflectorOut = (nextRotorsIO3[1]+1) % 26;
+    nextReflectorIO[0] = nextRotorsIO3[1];
+    nextReflectorIO[1] = reflector[nextReflectorIO[0]];
+    //let reflectorOut = (nextRotorsIO3[1]+1) % 26;
 
-    nextRotorsIO3[2] = reflectorOut;
+    nextRotorsIO3[2] = nextReflectorIO[1];
     nextRotorsIO3[3] = inverse_cipher(nextRotorsIO3[2],rotor3);
 
     nextRotorsIO2[2] = nextRotorsIO3[3];
@@ -246,18 +328,24 @@ export default function Rotors() {
     setRotorIO1(nextRotorsIO1);
     setRotorIO2(nextRotorsIO2);
     setRotorIO3(nextRotorsIO3);
+    setReflectorIO(nextReflectorIO);
   }
 
   const [rotor1, setRotor1] = useState(shuffle(letters_index));
   const [rotor2, setRotor2] = useState(shuffle(letters_index));
   const [rotor3, setRotor3] = useState(shuffle(letters_index));
+  const [reflector, setReflector] = useState(letters_index.map((letter, i) => {
+    return ((letter+1)%26);
+  }));
+
+
   const [input, setInput] = useState(null);
 
   //IO are (R->L Input, R->L Output, L->R Input, L->R Output)
   const [rotorIO1, setRotorIO1] = useState([null, null, null, null]);
   const [rotorIO2, setRotorIO2] = useState([null, null, null, null]);
   const [rotorIO3, setRotorIO3] = useState([null, null, null, null]);
-
+  const [reflectorIO, setReflectorIO] = useState([null, null]);
   /* 
   console.log(rotor1);
   console.log(rotor2);
@@ -265,25 +353,25 @@ export default function Rotors() {
   */
 
   return (
-        <div>  
+        <div className="enigma_machine">  
           <div>
+              <Reflector config={reflector} IO={reflectorIO} name="reflector"/>
               <Rotor config={rotor3} IO={rotorIO3} name="rotor3"/>
               <Rotor config={rotor2} IO={rotorIO2} name="rotor2"/>
               <Rotor config={rotor1} IO={rotorIO1} name="rotor1"/>
           </div>
 
-          <div className="board-row">
-            Input:    
-            <button className="output">{input}</button>
-            Output:    
-            <button className="output">{index_to_character(rotorIO1[3])} </button>
+          <div className="io">
+            <div className="board-row">
+              Output:    
+              <button className="output">{index_to_character(rotorIO1[3])} </button>
 
+            </div>
+            <br/>
+            <div>
+              <Keypad config={qwerty} onLetterClick={handleLetterClick} input={input}/>
+            </div>
           </div>
-          <br/>
-          <div>
-            <Keypad config={qwerty} onLetterClick={handleLetterClick} input={input}/>
-          </div>
-
         </div>
       );
 }

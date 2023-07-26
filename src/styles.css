@@ -56,6 +56,16 @@ body {
   padding: 0;
 }
 
+.enigma_machine{
+  width: 500px;
+}
+
+.io{
+  width: 500px;
+  padding-left: 100px;
+}
+
+
 .output {
   background: #fff;
   border: 1px solid #999;
@@ -86,7 +96,7 @@ body {
 
 
 .square_clicked {
-  background: #eba90f;
+  background: #ef8905;
   border: 1px solid #999;
   float: left;
   font-size: 24px;
