@@ -62,7 +62,7 @@ body {
 
 .io{
   width: 500px;
-  padding-left: 100px;
+  padding-left: 80px;
 }
 
 
@@ -79,17 +79,14 @@ body {
 }
 
 .square {
-  background: #fff;
-  border: 1px solid #999;
-  color: #aaa; 
+  background: #aaa;
+  border: 1px solid white;
+  color: #fff; 
   float: left;
   font-size: 24px;
   font-weight: bold;
   line-height: 34px;
   height: 34px;
-  margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
   text-align: center; 
   width: 34px;
 }
@@ -97,15 +94,12 @@ body {
 
 .square_clicked {
   background: #ef8905;
-  border: 1px solid #999;
+  border: 1px solid white;
   float: left;
   font-size: 24px;
   font-weight: bold;
   line-height: 34px;
   height: 34px;
-  margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
   text-align: center;
   width: 34px;
 }
@@ -113,14 +107,7 @@ body {
 .keypadbuff {
   background: #fff;
   float: left;
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 34px;
-  height: 34px;
-  margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
-  text-align: center;
+  height: 1px;
   width: 17px;
 }
 

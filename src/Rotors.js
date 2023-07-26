@@ -53,7 +53,7 @@ function Keypad({config, onLetterClick, input}){
 
   const listwires = config.map((letter, i) => {
         let isInput = (letter == input ? true : false);  
-        return (<button className={isInput ? "square_clicked" : "square"} key={query_index[i]} onClick={() => onLetterClick(letter)} value={query_index[i]}>{letter}</button>);
+        return (<div className={isInput ? "square_clicked" : "square"} key={query_index[i]} onClick={() => onLetterClick(letter)} value={query_index[i]}>{letter}</div>);
     }
   );
 
@@ -362,7 +362,7 @@ export default function Rotors() {
           </div>
 
           <div className="io">
-            <div className="board-row">
+            <div className="io">
               Output:    
               <button className="output">{index_to_character(rotorIO1[3])} </button>
 
