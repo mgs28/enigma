@@ -4,6 +4,34 @@ $ npm install
 
 $ npm start 
 
+# Usage
+
+This enignma machine is composed of three rotors shows as vertical columns and one reflector (the first column left to right). Initially the wiring diagram and transformations will look empty.
+
+![Alt text](image.png)
+
+Input your message one character at a time using your mouse and the keyboard shown in the app. There are no backspaces nor punctuation right now.  
+
+In this example, the first letter I clicked on was the letter Q.  The diagnostics are shown at the bottom of each rotor and start out right to left then through the reflector and back left to right. In this case, 
+
+1. Q gets mapped to Z in rotor1 
+2. Z is mapped to C in rotor 2 
+3. C is mapped to S in rotor 3
+4. S is mapped to T in the reflector
+5. T is mapped to I in rotor 3
+6. I is mapped to letter E in rotor 2
+7. E is mapped to H in rotor1. 
+
+![Alt text](image-1.png)
+
+As you click each key the input will be stored in the text box labeled "In" and the ciphered output will be stored in the next box labeled "Out:". In this first example, In = Q and Out = H. Adding more letters will add more to the In and Out text boxes.
+
+Also note that as you input letters the rotor wire diagrams change (aka rotate). This is an important feature of an Enigma machine. 
+
+To Decode the message, write down the Out message somewhere and refresh your browser. Then you can key in each letter of out to get the deciphered text. 
+
+A good example is that MATTHEW gets encoded as FSBKBWN. Notice that the two T's get encoded as different letters and this is the advantage of a rotating cipher over a static cipher. In a standard substitution cipher T would always become a single letter (e.g. F). This variance of letter mappings makes it harder to decode a rotational cipher. 
+
 # Problem
 
 An [Enigma machine](https://en.wikipedia.org/wiki/Enigma_machine)  a cipher device used in the 20th century by Germany and its allies to protect communications. It operates via a set of 
