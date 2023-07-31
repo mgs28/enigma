@@ -115,3 +115,15 @@ Heres the code snippet for Rotor1
 
 I also added some color highlighting to make the rotors pop from left to right. 
 
+Next part is to start rotating the rotors after an input is ciphered. This involves some transformations. Let's say that the initial
+configuration has the following ciphers in a rotor
+
+    A -> A
+    Z -> I 
+
+Then we rotate one click for that rotor. The easiest way to do this is to say perform a pop/unshift pairing for the configuration string. 
+
+    A -> I 
+    B -> A 
+
+This is probably not how the original system worked as B probably mapped to B (as identity would have just rotated). However, we can adapt this later to be historically accurate
