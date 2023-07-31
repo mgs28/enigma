@@ -4,7 +4,8 @@ import EnigmaConfiguration from './EnigmaConfiguration';
 import { Reflector } from './Reflector';
 import { Keypad } from './Keypad';
 import { Rotor } from './Rotor';
-
+import {IOBuffers} from './IOBuffers' 
+ 
 //Question: I hate the global functions and the global consts. Any way to get away from them? 
 
 //init the three rotors 
@@ -104,6 +105,12 @@ export default function Rotors() {
     setRotorIO2(nextRotorsIO2);
     setRotorIO3(nextRotorsIO3);
     setReflectorIO(nextReflectorIO);
+
+    //add to buffers
+    const inputBuff_copy = inputBuff.slice();
+    const outputBuff_copy = outputBuff.slice(); 
+    setInputBuff(inputBuff_copy + i);
+    setOutputBuff(outputBuff_copy + index_to_character(nextRotorsIO1[3]));
   }
 
   const [rotor1, setRotor1] = useState(shuffle(letters_index));
@@ -113,8 +120,10 @@ export default function Rotors() {
     return (letter%2 ? letter-1 : letter+1)%26;
   }));
 
-
   const [input, setInput] = useState(null);
+
+  const [inputBuff, setInputBuff] = useState('');
+  const [outputBuff, setOutputBuff] = useState('');
 
   //IO are (R->L Input, R->L Output, L->R Input, L->R Output)
   const [rotorIO1, setRotorIO1] = useState([null, null, null, null]);
@@ -143,14 +152,16 @@ export default function Rotors() {
                 <Keypad config={qwerty} onLetterClick={handleLetterClick} input={input}/>
               </div>
             </div>
-
-
-
           </div>
-          
-          <div className="configurationInfo">
+
+          <div className="iobuffers">
+            <IOBuffers inputbuff={inputBuff} outputbuff={outputBuff} />
+
             <EnigmaConfiguration reflector={reflector} rotor1={rotor1} rotor2={rotor2} rotor3={rotor3} />
           </div>
+        
+          
+
       </div> 
 
       );

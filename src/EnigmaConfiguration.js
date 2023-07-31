@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 export default function EnigmaConfiguration({reflector, rotor1, rotor2, rotor3}) {
     return ( 
-    <div>
+    <div className="configurationInfo">
         <h2>The Enigma Configuration </h2>
         <form>
             <label>
