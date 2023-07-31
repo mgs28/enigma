@@ -77,9 +77,8 @@ export default function Rotors() {
     const nextReflectorIO = reflectorIO.slice();
     const input_idx = character_to_idx(i);
 
-
     nextRotorsIO1[0] = input_idx;
-    nextRotorsIO1[1] = rotor1[nextRotorsIO1[0]];
+    nextRotorsIO1[1] = rotor1[nextRotorsIO1[0]] ;
 
     nextRotorsIO2[0] = nextRotorsIO1[1]; 
     nextRotorsIO2[1] = rotor2[nextRotorsIO2[0]];
@@ -90,7 +89,7 @@ export default function Rotors() {
     //Shifting as a placeholder for rotors 
     nextReflectorIO[0] = nextRotorsIO3[1];
     nextReflectorIO[1] = reflector[nextReflectorIO[0]];
-    //let reflectorOut = (nextRotorsIO3[1]+1) % 26;
+   
 
     nextRotorsIO3[2] = nextReflectorIO[1];
     nextRotorsIO3[3] = inverse_cipher(nextRotorsIO3[2],rotor3);
@@ -99,7 +98,7 @@ export default function Rotors() {
     nextRotorsIO2[3] = inverse_cipher(nextRotorsIO2[2],rotor2);
 
     nextRotorsIO1[2] = nextRotorsIO2[3];
-    nextRotorsIO1[3] = inverse_cipher(nextRotorsIO1[2],rotor1);
+    nextRotorsIO1[3] = inverse_cipher(nextRotorsIO1[2],rotor1) ;
 
     setRotorIO1(nextRotorsIO1);
     setRotorIO2(nextRotorsIO2);
@@ -111,14 +110,41 @@ export default function Rotors() {
     const outputBuff_copy = outputBuff.slice(); 
     setInputBuff(inputBuff_copy + i);
     setOutputBuff(outputBuff_copy + index_to_character(nextRotorsIO1[3]));
-  }
 
-  const [rotor1, setRotor1] = useState(shuffle(letters_index));
-  const [rotor2, setRotor2] = useState(shuffle(letters_index));
-  const [rotor3, setRotor3] = useState(shuffle(letters_index));
+    //rotate the rotors
+    const new_rotor1 = rotor1.slice();
+    new_rotor1.unshift(new_rotor1.pop());
+    setRotor1(new_rotor1);
+    setRotor1_rot(rotor1_rot+1);
+
+    if(rotor1_rot > 24){
+      setRotor1_rot(0);
+      const new_rotor2 = rotor2.slice();
+      new_rotor2.unshift(new_rotor2.pop());
+      setRotor2(new_rotor2);
+      setRotor2_rot(rotor2_rot+1);
+    }
+
+    if(rotor2_rot > 24){
+      setRotor2_rot(0);
+      const new_rotor3 = rotor3.slice();
+      new_rotor3.unshift(new_rotor3.pop());
+      setRotor3(new_rotor3);
+    }
+
+  }
+  
+  //can use things like const [rotor1, setRotor1] = useState(shuffle(letters_index)); to set random rotors. Fixed helps with testing.
+  const [rotor1, setRotor1] = useState([5,3,11,15,20,22,19,4,7,23,0,24,16,12,8,6,25,21,13,2,18,10,1,17,9,14]);
+  const [rotor2, setRotor2] = useState([12,11,19,7,8,13,4,6,14,16,0,25,17,10,1,23,3,18,9,5,20,22,24,21,15,2]);
+  const [rotor3, setRotor3] = useState([0,16,18,6,11,25,14,2,19,3,10,13,8,24,15,4,9,20,23,12,1,5,17,22,7,21]);
   const [reflector, setReflector] = useState(letters_index.map((letter, i) => {
     return (letter%2 ? letter-1 : letter+1)%26;
   }));
+
+  //these define the amount each rotor is rotated (starting at 0)
+  const [rotor1_rot, setRotor1_rot] = useState(0);
+  const [rotor2_rot, setRotor2_rot] = useState(0);
 
   const [input, setInput] = useState(null);
 
