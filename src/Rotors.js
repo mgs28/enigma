@@ -335,7 +335,7 @@ export default function Rotors() {
   const [rotor2, setRotor2] = useState(shuffle(letters_index));
   const [rotor3, setRotor3] = useState(shuffle(letters_index));
   const [reflector, setReflector] = useState(letters_index.map((letter, i) => {
-    return ((letter+1)%26);
+    return (letter%2 ? letter-1 : letter+1)%26;
   }));
 
 
