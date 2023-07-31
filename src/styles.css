@@ -128,3 +128,10 @@ body {
 .game-info {
   margin-left: 20px;
 }
+
+.configurationInfo{
+  width: 630px;
+  border: 1px solid #555;
+  padding: 15px;
+  margin-top: 40px;
+}
