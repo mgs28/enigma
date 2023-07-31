@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
+import EnigmaConfiguration from './EnigmaConfiguration';
 
 //Question: I hate the global functions and the global consts. Any way to get away from them? 
 
@@ -353,25 +354,35 @@ export default function Rotors() {
   */
 
   return (
-        <div className="enigma_machine">  
-          <div>
-              <Reflector config={reflector} IO={reflectorIO} name="reflector"/>
-              <Rotor config={rotor3} IO={rotorIO3} name="rotor3"/>
-              <Rotor config={rotor2} IO={rotorIO2} name="rotor2"/>
-              <Rotor config={rotor1} IO={rotorIO1} name="rotor1"/>
-          </div>
-
-          <div className="io">
-            <div className="io">
-              Output:    
-              <button className="output">{index_to_character(rotorIO1[3])} </button>
-
-            </div>
-            <br/>
+        <div> 
+          <div className="enigma_machine">  
             <div>
-              <Keypad config={qwerty} onLetterClick={handleLetterClick} input={input}/>
+                <Reflector config={reflector} IO={reflectorIO} name="reflector"/>
+                <Rotor config={rotor3} IO={rotorIO3} name="rotor3"/>
+                <Rotor config={rotor2} IO={rotorIO2} name="rotor2"/>
+                <Rotor config={rotor1} IO={rotorIO1} name="rotor1"/>
             </div>
+
+            <div className="io">
+              <div className="io">
+                Output:    
+                <button className="output">{index_to_character(rotorIO1[3])} </button>
+
+              </div>
+              <br/>
+              <div>
+                <Keypad config={qwerty} onLetterClick={handleLetterClick} input={input}/>
+              </div>
+            </div>
+
+
+
           </div>
-        </div>
+          
+          <div className="configurationInfo">
+            <EnigmaConfiguration reflector={reflector} rotor1={rotor1} rotor2={rotor2} rotor3={rotor3} />
+          </div>
+      </div> 
+
       );
 }
