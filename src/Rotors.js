@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import EnigmaConfiguration from './EnigmaConfiguration';
 import { Reflector } from './Reflector';
+import { Keypad } from './Keypad';
 
 //Question: I hate the global functions and the global consts. Any way to get away from them? 
 
@@ -10,7 +11,7 @@ const letters_index = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,2
 const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
 const qwerty = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M'];
-const query_index = [16, 22, 4, 17, 19, 24, 20, 8, 14, 15, 0, 18, 3, 5, 6, 7, 9, 10, 11, 25, 23, 2, 21, 1, 13, 12];
+export const query_index = [16, 22, 4, 17, 19, 24, 20, 8, 14, 15, 0, 18, 3, 5, 6, 7, 9, 10, 11, 25, 23, 2, 21, 1, 13, 12];
 
 
 export function index_to_character(idx){
@@ -45,37 +46,6 @@ function inverse_cipher(c, r){
   return null;
 }
 
-
-function Keypad({config, onLetterClick, input}){
-
-  //Question: It feels silly to push input into this function to highlight the input key. Is there a better way? 
-
-  //Question: Is this the right place to define the arrow function? I'm not sure if it causing multiple renders. However, I 
-  //need to pass in each key to record the right input and I only know that here
-
-  const listwires = config.map((letter, i) => {
-        let isInput = (letter == input ? true : false);  
-        return (<div className={isInput ? "square_clicked" : "square"} key={query_index[i]} onClick={() => onLetterClick(letter)} value={query_index[i]}>{letter}</div>);
-    }
-  );
-
-  return (
-    <div>
-      <div className="board-row">
-        {listwires.slice(0,10)}
-      </div>
-      <div className="board-row">
-        <div className="keypadbuff"/>
-        {listwires.slice(10,19)}
-      </div>
-      <div className="board-row">
-        <div className="keypadbuff"/>
-        <div className="keypadbuff"/>
-        {listwires.slice(19)}
-      </div>
-    </div>
-  );
-}
 
 function Rotor({config, IO, name}){
 
