@@ -7,10 +7,6 @@ export default function EnigmaConfiguration({reflector, rotor1, rotor2, rotor3})
         <h2>The Enigma Configuration </h2>
         <form>
             <label>
-            Reflector
-            <textarea value={reflector} rows="1" cols="70"/>  
-            </label>
-            <br /><label>
             Rotor1
             <textarea value={rotor1} rows="1" cols="70"/>  
             </label>
@@ -24,6 +20,12 @@ export default function EnigmaConfiguration({reflector, rotor1, rotor2, rotor3})
             Rotor3
             <textarea value={rotor3} rows="1" cols="70"/>  
             </label>
+            <br />
+            <label>
+            Reflector
+            <textarea value={reflector} rows="1" cols="70"/>  
+            </label>
+            
         </form>
     </div>
     );
