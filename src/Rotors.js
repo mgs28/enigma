@@ -46,6 +46,32 @@ function inverse_cipher(c, r){
   }
 
   return null;
+} 
+
+function rotate_rotor(r){
+
+  let newrotor = r.slice();
+  //old way 
+  //newrotor.unshift(newrotor.pop());
+  //return newrotor;
+
+
+  //mechanical representation. Doesn't work
+  //create the transformation vector 
+  newrotor = newrotor.map((v,i) => {
+    return v - i;
+  });
+  
+  //shift the entries
+  newrotor.unshift(newrotor.pop());
+
+  //create the new mapping
+  newrotor = newrotor.map((v,i) => {
+    return (i + v + (3*26))%26;
+  }); 
+
+  return newrotor;
+
 }
 
 
@@ -112,24 +138,19 @@ export default function Rotors() {
     setOutputBuff(outputBuff_copy + index_to_character(nextRotorsIO1[3]));
 
     //rotate the rotors
-    const new_rotor1 = rotor1.slice();
-    new_rotor1.unshift(new_rotor1.pop());
-    setRotor1(new_rotor1);
+    
+    setRotor1(rotate_rotor(rotor1));
     setRotor1_rot(rotor1_rot+1);
 
     if(rotor1_rot > 24){
       setRotor1_rot(0);
-      const new_rotor2 = rotor2.slice();
-      new_rotor2.unshift(new_rotor2.pop());
-      setRotor2(new_rotor2);
+      setRotor2(rotate_rotor(rotor2));
       setRotor2_rot(rotor2_rot+1);
     }
 
     if(rotor2_rot > 24){
       setRotor2_rot(0);
-      const new_rotor3 = rotor3.slice();
-      new_rotor3.unshift(new_rotor3.pop());
-      setRotor3(new_rotor3);
+      setRotor3(rotate_rotor(rotor3));
     }
 
   }
