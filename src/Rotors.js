@@ -56,7 +56,7 @@ function rotate_rotor(r){
   //return newrotor;
 
 
-  //mechanical representation. Doesn't work
+  //mechanical representation. 
   //create the transformation vector 
   newrotor = newrotor.map((v,i) => {
     return v - i;
