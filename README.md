@@ -175,16 +175,16 @@ After a rotation the inputs & outputs on the right and left would change. You ca
 For this, you can inefficently calculate the transformation vector. For example, if the first transformation adds 2 letters to the input A then when the wheel shifts input B will have two letters added to it. That means creating the transformation vector, shifting it one place and then recomputing the cipher vector. We have to add a constant (3*26) that is a multiple of the alphabet to handle negative transformations (e.g. subtract 1 letter from the input).
 
 
-  //mechanical representation. 
-  //create the transformation vector 
-  newrotor = newrotor.map((v,i) => {
-    return v - i;
-  });
-  
-  //shift the entries
-  newrotor.unshift(newrotor.pop());
+    //mechanical representation. 
+    //create the transformation vector 
+    newrotor = newrotor.map((v,i) => {
+        return v - i;
+    });
+    
+    //shift the entries
+    newrotor.unshift(newrotor.pop());
 
-  //create the new mapping
-  newrotor = newrotor.map((v,i) => {
-    return (i + v + (3*26))%26;
-  }); 
+    //create the new mapping
+    newrotor = newrotor.map((v,i) => {
+        return (i + v + (3*26))%26;
+    }); 
