@@ -143,15 +143,48 @@ Heres the code snippet for Rotor1
 
 I also added some color highlighting to make the rotors pop from left to right. 
 
+## Rotation - Simple Version
+
 Next part is to start rotating the rotors after an input is ciphered. This involves some transformations. Let's say that the initial
 configuration has the following ciphers in a rotor
 
-    A -> A
-    Z -> I 
+    A <-> A
+    Z <-> I 
 
 Then we rotate one click for that rotor. The easiest way to do this is to say perform a pop/unshift pairing for the configuration string. 
 
-    A -> I 
-    B -> A 
+    A <-> I 
+    B <-> A 
 
-This is probably not how the original system worked as B probably mapped to B (as identity would have just rotated). However, we can adapt this later to be historically accurate
+## Rotation - Historical
+
+The rotors in the historical one rotated in a similar way to the following example. 
+
+    C <-> A (adding 2 letters to A)
+    A <-> B (subtracting 1 letter from B)
+    B <-> C (subtracting 1 letter from C)
+    D <-> D (no change)
+
+After a rotation the inputs & outputs on the right and left would change. You can visualize this as the transformations shifting one location on the rotor. For example, the no change transition would now be applied to the letter A while input B would get the 2 letter transformation applied. 
+
+    A <-> A (no change) 
+    D <-> B (adding 2 letters to B)
+    B <-> C (subtracting 1 letter from C)
+    C <-> D (subtracting 1 letter from D)
+ 
+For this, you can inefficently calculate the transformation vector. For example, if the first transformation adds 2 letters to the input A then when the wheel shifts input B will have two letters added to it. That means creating the transformation vector, shifting it one place and then recomputing the cipher vector. We have to add a constant (3*26) that is a multiple of the alphabet to handle negative transformations (e.g. subtract 1 letter from the input).
+
+
+  //mechanical representation. 
+  //create the transformation vector 
+  newrotor = newrotor.map((v,i) => {
+    return v - i;
+  });
+  
+  //shift the entries
+  newrotor.unshift(newrotor.pop());
+
+  //create the new mapping
+  newrotor = newrotor.map((v,i) => {
+    return (i + v + (3*26))%26;
+  }); 
