@@ -8,11 +8,11 @@ export function IOBuffers ({inputbuff, outputbuff}) {
         <form> 
             <label>
             In :
-            <textarea value={inputbuff} rows="10" cols="70"/>  
+            <textarea value={inputbuff} rows="10" cols="70" readOnly="{true}"/>  
             </label>
             <br /><label>
             Out: 
-            <textarea value={outputbuff} rows="10" cols="70"/>  
+            <textarea value={outputbuff} rows="10" cols="70" readOnly="{true}"/>  
             </label>
         </form>
     </div>
