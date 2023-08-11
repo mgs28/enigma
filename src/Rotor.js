@@ -6,6 +6,7 @@ export function Rotor({ config, IO, name }) {
   const listwires = config.map((number, i) => {
     let isActiveLtoR = (number == IO[1]);
     let isActiveRtoL = (number == IO[2]);
+    
 
     let color = "#ddd";
     let stroke = 2;
