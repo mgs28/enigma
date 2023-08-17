@@ -5,104 +5,11 @@ import { Reflector } from './Reflector';
 import { Keypad } from './Keypad';
 import { Rotor } from './Rotor';
 import {IOBuffers} from './IOBuffers' 
+
+import { rotate_rotor, character_to_idx, inverse_cipher, index_to_character } from './utilities';
+import { letters_index, qwerty } from './constants';
  
-//Question: I hate the global functions and the global consts. Any way to get away from them? 
-
-//init the three rotors 
-const letters_index = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25];
-const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-
-const qwerty = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M'];
-export const query_index = [16, 22, 4, 17, 19, 24, 20, 8, 14, 15, 0, 18, 3, 5, 6, 7, 9, 10, 11, 25, 23, 2, 21, 1, 13, 12];
-
-
-export function index_to_character(idx){
-  if(idx >=0 && idx < 26){
-    return letters[idx];
-  }
-  //else
-  return ''; 
-}
-
-function character_to_idx(c){
-  //can be smarter than this but it is only 26 letters
-  for(var i=0;i<letters.length;i++){
-    if(letters[i] == c){
-      return i;
-    }
-  }
-
-  return null;
-}
-
-//c is a character to reverse lookup in the rotor r
-function inverse_cipher(c, r){
-  //Question: Can I make this more efficient? It's only 26 characters so it is not important right now.
-
-  for(var i =0;i<r.length;i++){
-      if(r[i]==c){
-        return i;
-      }
-  }
-
-  return null;
-} 
-
-function rotate_rotor(r){
-
-  return rotate_rotor_mechanical(r);
-  //return rotate_rotor_software(r);
-  //return r; 
-  
-
-}
-
-//rotate the rotor with the easiest way to do it in software 
-function rotate_rotor_software(r){
-  
-  return [
-    ... r.slice(1),
-    r.slice(0,1)
-  ];
-
-}
-
-//Rotate the rotor with a mechanical representation where the mapping between letters shifts to the next letter (e.g. A->B then B->C after a rotation). 
-function rotate_rotor_mechanical(r){
-  //create the transformation vector 
-  let newrotor = r.map((v,i) => {
-    return v - i;
-  });
-  
-  //shift the entries
-  newrotor.unshift(newrotor.pop());
-
-  //create the new mapping
-  newrotor = newrotor.map((v,i) => {
-    return (i + v + (3*26))%26;
-  }); 
-  
-
-  return newrotor;
-}
-
-export default function Rotors() {
-
-  function shuffle(array_input) {
-    var array = array_input.slice();
-    //Question: Not a huge fan of these for loops. Any better alternative? 
-    for (let i = array.length - 1; i > 0; i--) {
-      let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
-  
-      // swap elements array[i] and array[j]
-      // we use "destructuring assignment" syntax to achieve that
-      // you'll find more details about that syntax in later chapters
-      // same can be written as:
-      // let t = array[i]; array[i] = array[j]; array[j] = t
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  }
+export default function Enigma() {
 
   function handleLetterClick(i){
 

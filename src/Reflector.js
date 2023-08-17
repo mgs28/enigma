@@ -1,5 +1,5 @@
 import React from 'react';
-import { index_to_character } from './Rotors';
+import { index_to_character } from './utilities';
 
 export function Reflector({ config, IO, name }) {
 
