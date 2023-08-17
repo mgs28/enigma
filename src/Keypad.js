@@ -1,5 +1,5 @@
 import React from 'react';
-import { query_index } from './Rotors';
+import { query_index } from './constants';
 
 export function Keypad({ config, onLetterClick, input }) {
   //Question: It feels silly to push input into this function to highlight the input key. Is there a better way? 
