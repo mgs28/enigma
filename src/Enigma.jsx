@@ -7,7 +7,7 @@ import { Rotor } from './Rotor';
 import {IOBuffers} from './IOBuffers' 
 
 import { rotate_rotor, character_to_idx, inverse_cipher, index_to_character } from './utilities';
-import { letters_index, qwerty } from './constants';
+import { letters_index, qwerty, RotorA, RotorB, RotorC, RotorD, RotorReflector} from './constants';
  
 export default function Enigma() {
 
@@ -81,12 +81,10 @@ export default function Enigma() {
   // Setting up the default Rotors and Reflector
   // Rotors are defined as integer arrays so that [5,3,...] maps A to F, B to D
   // 
-  const [rotor1, setRotor1] = useState([5,3,11,15,20,22,19,4,7,23,0,24,16,12,8,6,25,21,13,2,18,10,1,17,9,14]);
-  const [rotor2, setRotor2] = useState([12,11,19,7,8,13,4,6,14,16,0,25,17,10,1,23,3,18,9,5,20,22,24,21,15,2]);
-  const [rotor3, setRotor3] = useState([0,16,18,6,11,25,14,2,19,3,10,13,8,24,15,4,9,20,23,12,1,5,17,22,7,21]);
-  const [reflector, setReflector] = useState(letters_index.map((letter, i) => {
-    return (letter%2 ? letter-1 : letter+1)%26;
-  }));
+  const [rotor1, setRotor1] = useState(RotorD);
+  const [rotor2, setRotor2] = useState(RotorB);
+  const [rotor3, setRotor3] = useState(RotorC);
+  const [reflector, setReflector] = useState(RotorReflector);
 
   //not needed since we can use counts of output buffer length
   //these define the amount each rotor is rotated (starting at 0)
@@ -116,6 +114,7 @@ export default function Enigma() {
                 <Rotor config={rotor2} IO={rotorIO2} name="rotor2"/>
                 <Rotor config={rotor1} IO={rotorIO1} name="rotor1"/>
             </div>
+            <div className="rotorClear"> </div>
 
             <div className="io">
               <div className="io">
@@ -132,8 +131,6 @@ export default function Enigma() {
 
           <div className="iobuffers">
             <IOBuffers inputbuff={inputBuff} outputbuff={outputBuff} />
-
-            <EnigmaConfiguration reflector={reflector} rotor1={rotor1} rotor2={rotor2} rotor3={rotor3} />
           </div>
         
           
