@@ -17,15 +17,34 @@ export function Rotor({ config, IO, name }) {
       color = "#f00";
       stroke = 3;
     }
-    return (<polyline key={i} points={"30, " + (57 + (number * 10)) + ", 100," + (57 + (i * 10))} stroke={color} strokeWidth={stroke} />);
+    return (<polyline key={i} points={"30, " + (7 + (number * 10)) + ", 100," + (7 + (i * 10))} stroke={color} strokeWidth={stroke} />);
   }
   );
 
   return (
+    <div className="rotorDiv">
+        <div className="rotorConf">
+          <form >
+            <select defaultValue="D" >
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+            </select>
+
+            <select defaultValue="0" >
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>                
+          </form>  
+        </div>  
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="120"
-      height="400"
+      height="350"
       version="1.0"
     >
       <defs>
@@ -36,10 +55,15 @@ export function Rotor({ config, IO, name }) {
       </defs>
       <g>
 
-        <rect width="90" height="265" stroke="#666666" strokeWidth="3" fill="rgb(255, 255, 255)" x="20" y="50" />
+        <rect width="90" height="265" stroke="#666666" strokeWidth="3" fill="rgb(255, 255, 255)" x="20" y="0" />
 
         {/* <!-- Left Nodes -->  */}
         <g>
+          <rect x="10" y="5" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect x="10" y="15" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect x="10" y="25" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect x="10" y="35" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect x="10" y="45" width="20" height="5" strokeWidth="0" fill="#aaa" />
           <rect x="10" y="55" width="20" height="5" strokeWidth="0" fill="#aaa" />
           <rect x="10" y="65" width="20" height="5" strokeWidth="0" fill="#aaa" />
           <rect x="10" y="75" width="20" height="5" strokeWidth="0" fill="#aaa" />
@@ -61,15 +85,15 @@ export function Rotor({ config, IO, name }) {
           <rect x="10" y="235" width="20" height="5" strokeWidth="0" fill="#aaa" />
           <rect x="10" y="245" width="20" height="5" strokeWidth="0" fill="#aaa" />
           <rect x="10" y="255" width="20" height="5" strokeWidth="0" fill="#aaa" />
-          <rect x="10" y="265" width="20" height="5" strokeWidth="0" fill="#aaa" />
-          <rect x="10" y="275" width="20" height="5" strokeWidth="0" fill="#aaa" />
-          <rect x="10" y="285" width="20" height="5" strokeWidth="0" fill="#aaa" />
-          <rect x="10" y="295" width="20" height="5" strokeWidth="0" fill="#aaa" />
-          <rect x="10" y="305" width="20" height="5" strokeWidth="0" fill="#aaa" />
         </g>
 
         {/* <!-- Right Nodes -->  */}
         <g>
+          <rect x="100" y="5" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect x="100" y="15" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect x="100" y="25" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect x="100" y="35" width="20" height="5" strokeWidth="0" fill="#aaa" />
+          <rect x="100" y="45" width="20" height="5" strokeWidth="0" fill="#aaa" />
           <rect x="100" y="55" width="20" height="5" strokeWidth="0" fill="#aaa" />
           <rect x="100" y="65" width="20" height="5" strokeWidth="0" fill="#aaa" />
           <rect x="100" y="75" width="20" height="5" strokeWidth="0" fill="#aaa" />
@@ -91,11 +115,6 @@ export function Rotor({ config, IO, name }) {
           <rect x="100" y="235" width="20" height="5" strokeWidth="0" fill="#aaa" />
           <rect x="100" y="245" width="20" height="5" strokeWidth="0" fill="#aaa" />
           <rect x="100" y="255" width="20" height="5" strokeWidth="0" fill="#aaa" />
-          <rect x="100" y="265" width="20" height="5" strokeWidth="0" fill="#aaa" />
-          <rect x="100" y="275" width="20" height="5" strokeWidth="0" fill="#aaa" />
-          <rect x="100" y="285" width="20" height="5" strokeWidth="0" fill="#aaa" />
-          <rect x="100" y="295" width="20" height="5" strokeWidth="0" fill="#aaa" />
-          <rect x="100" y="305" width="20" height="5" strokeWidth="0" fill="#aaa" />
         </g>
 
         {/* <!-- edges -->  */}
@@ -106,16 +125,17 @@ export function Rotor({ config, IO, name }) {
 
 
         {/* <!-- mapping: always ordered left, right, arrow -->  */}
-        <text x="25" y="340">{index_to_character(IO[1])}</text>
-        <text x="85" y="340">{index_to_character(IO[0])}</text>
-        <line x2="50" y2="335" x1="80" y1="335" stroke="#ef8905" strokeWidth="2  " markerEnd="url(#arrowhead)" />
+        <text x="25" y="290">{index_to_character(IO[1])}</text>
+        <text x="85" y="290">{index_to_character(IO[0])}</text>
+        <line x2="50" y2="285" x1="80" y1="285" stroke="#ef8905" strokeWidth="2  " markerEnd="url(#arrowhead)" />
 
-        <text x="25" y="370">{index_to_character(IO[2])}</text>
-        <text x="85" y="370">{index_to_character(IO[3])}</text>
-        <line x1="50" y1="365" x2="80" y2="365" stroke="#f00" strokeWidth="2  " markerEnd="url(#arrowhead)" />
+        <text x="25" y="320">{index_to_character(IO[2])}</text>
+        <text x="85" y="320">{index_to_character(IO[3])}</text>
+        <line x1="50" y1="315" x2="80" y2="315" stroke="#f00" strokeWidth="2  " markerEnd="url(#arrowhead)" />
 
 
       </g>
     </svg>
+    </div>
   );
 }

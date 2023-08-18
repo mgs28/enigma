@@ -69,8 +69,21 @@ body {
 label { 
     color: #B4886B;
     font-weight: bold;
-    width: 130px;
     display: block;
+}
+
+.rotorDiv{
+  width: 120px;
+  float: left;
+} 
+
+.rotorConf{
+  margin-left: 35px;
+  height: 30px;
+}
+
+.rotorClear{
+  clear: both;
 }
 
 .io{
