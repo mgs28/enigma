@@ -1,13 +1,14 @@
 import React from 'react';
-import { index_to_character } from './utilities';
+import { index_to_character, rotate_rotor } from './utilities';
 
-export function Rotor({ config, IO, name }) {
+import { RotorA, RotorB, RotorC, RotorD, RotorReflector} from './constants';
+
+export function Rotor({ config, configLabel, setConfig, setConfigLabel, offset, setOffset, IO, name }) {
 
   const listwires = config.map((number, i) => {
     let isActiveLtoR = (number == IO[1]);
     let isActiveRtoL = (number == IO[2]);
     
-
     let color = "#ddd";
     let stroke = 2;
     if (isActiveLtoR) {
@@ -21,23 +22,86 @@ export function Rotor({ config, IO, name }) {
   }
   );
 
+  function lookupRotor(v){
+    switch (v){
+      case 'A':
+        return RotorA;
+      case 'B':
+        return RotorB;
+      case 'C':
+        return RotorC;
+      default:
+        return RotorD;
+    }
+  }
+
+  function handleRotorChange(v){
+    setConfigLabel(v);
+    
+    //need to also rotate it by the right amount
+    let rotations = offset;
+    let temp_rotor = lookupRotor(v);
+    while(rotations > 0){
+      temp_rotor = rotate_rotor(temp_rotor);
+      rotations--;
+    }
+    setConfig(temp_rotor);
+
+  }
+
+  function handleOffsetChange(e){
+
+    //just start from scratch and rotate the rotor that many times
+    let rotations = e.target.value;
+    let temp_rotor = lookupRotor(configLabel);
+    while(rotations > 0){
+      temp_rotor = rotate_rotor(temp_rotor);
+      rotations--;
+    }
+    setConfig(temp_rotor);
+
+    setOffset(e.target.value);
+
+  }
+
   return (
     <div className="rotorDiv">
         <div className="rotorConf">
           <form >
-            <select defaultValue="D" >
+            <select value={configLabel} onChange={e => handleRotorChange(e.target.value)}  >
                 <option value="A">A</option>
                 <option value="B">B</option>
                 <option value="C">C</option>
                 <option value="D">D</option>
             </select>
 
-            <select defaultValue="0" >
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
+            <select value={offset} onChange={e=> handleOffsetChange(e)} >
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+              <option value="16">16</option>
+              <option value="17">17</option>
+              <option value="18">18</option>
+              <option value="19">19</option>
+              <option value="20">20</option>
+              <option value="21">21</option>
+              <option value="22">22</option>
+              <option value="23">23</option>
+              <option value="24">24</option>
+              <option value="25">25</option>
             </select>                
           </form>  
         </div>  

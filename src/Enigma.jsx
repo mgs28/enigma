@@ -22,17 +22,20 @@ export default function Enigma() {
     //rotate if we need to
     if(inputBuff.length > 0) {
       rotor1_curr = rotate_rotor(rotor1);
+      setRotor1Offset((rotor1_offset+1)%26);
       setRotor1(rotor1_curr); 
 
       if(inputBuff.length % 26 == 0){
         console.log("rotate second rotor");
         rotor2_curr = rotate_rotor(rotor2);
         setRotor2(rotor2_curr);
+        setRotor2Offset((rotor2_offset+1)%26);
       }
 
       if(inputBuff.length % 676 == 0){
         rotor3_curr = rotate_rotor(rotor3);
         setRotor3(rotor3_curr);
+        setRotor3Offset((rotor3_offset+1)%26);
       }
     }
 
@@ -81,15 +84,20 @@ export default function Enigma() {
   // Setting up the default Rotors and Reflector
   // Rotors are defined as integer arrays so that [5,3,...] maps A to F, B to D
   // 
+  const [rotor1_label, setRotor1Label] = useState('D');
+  const [rotor2_label, setRotor2Label] = useState('B');
+  const [rotor3_label, setRotor3Label] = useState('C');
+  
+  const [rotor1_offset, setRotor1Offset] = useState(0);
+  const [rotor2_offset, setRotor2Offset] = useState(0);
+  const [rotor3_offset, setRotor3Offset] = useState(0);
+
+
   const [rotor1, setRotor1] = useState(RotorD);
   const [rotor2, setRotor2] = useState(RotorB);
   const [rotor3, setRotor3] = useState(RotorC);
   const [reflector, setReflector] = useState(RotorReflector);
 
-  //not needed since we can use counts of output buffer length
-  //these define the amount each rotor is rotated (starting at 0)
-  //const [rotor1_rot, setRotor1_rot] = useState(0);
-  //const [rotor2_rot, setRotor2_rot] = useState(0);
 
   //Keep track of the input from the keypad
   const [input, setInput] = useState(null);
@@ -110,9 +118,9 @@ export default function Enigma() {
           <div className="enigma_machine">  
             <div>
                 <Reflector config={reflector} IO={reflectorIO} name="reflector"/>
-                <Rotor config={rotor3} IO={rotorIO3} name="rotor3"/>
-                <Rotor config={rotor2} IO={rotorIO2} name="rotor2"/>
-                <Rotor config={rotor1} IO={rotorIO1} name="rotor1"/>
+                <Rotor config={rotor3} configLabel={rotor3_label} setConfig={setRotor3} setConfigLabel={setRotor3Label} offset={rotor3_offset} setOffset={setRotor3Offset} IO={rotorIO3} name="rotor3"/>
+                <Rotor config={rotor2} configLabel={rotor2_label} setConfig={setRotor2} setConfigLabel={setRotor2Label} offset={rotor2_offset} setOffset={setRotor2Offset} IO={rotorIO2} name="rotor2"/>
+                <Rotor config={rotor1} configLabel={rotor1_label} setConfig={setRotor1} setConfigLabel={setRotor1Label} offset={rotor1_offset} setOffset={setRotor1Offset} IO={rotorIO1} name="rotor1"/>
             </div>
             <div className="rotorClear"> </div>
 
