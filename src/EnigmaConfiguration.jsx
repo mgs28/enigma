@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
+import { RotorA, RotorB, RotorC, RotorD, RotorReflector} from './constants';
 
 export default function EnigmaConfiguration({reflector, rotor1, rotor2, rotor3}) {
     return ( 
@@ -7,25 +8,24 @@ export default function EnigmaConfiguration({reflector, rotor1, rotor2, rotor3})
         <h2>The Enigma Configuration </h2>
         <form>
             <label>
-            Rotor1
-            <textarea value={rotor1} rows="1" cols="70" readOnly="{true}"/>  
+                Rotor1 Configuration:
+                <select defaultValue="D" >
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                </select>
             </label>
-            <br />
             <label>
-            Rotor2
-            <textarea value={rotor2} rows="1" cols="70" readOnly="{true}"/> 
-            </label>
-            <br /> 
-            <label>
-            Rotor3
-            <textarea value={rotor3} rows="1" cols="70" readOnly="{true}"/> 
-            </label>
-            <br />
-            <label>
-            Reflector
-            <textarea value={reflector} rows="1" cols="70" readOnly="{true}"/> 
-            </label>
-            
+                Rotor1 Offset:
+                <select defaultValue="0" >
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>                
+            </label>            
         </form>
     </div>
     );
