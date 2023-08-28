@@ -6,7 +6,7 @@ $ npm start
 
 # Usage
 
-This enignma machine is composed of three rotors shows as vertical columns and one reflector (the first column left to right). Initially the wiring diagram and transformations will look empty.
+This enignma machine is composed of three rotors shows as vertical columns and one reflector (the first column left to right). Initially the wiring diagram and transformations will look empty. Also at the top are three pairs of drop downs (C,O), (B,O) and (D,0) what this means is to use Rotor C with 0 offset, Rotor B with 0 offset and Rotor D with 0 offset. Each rotor has a different encoding with Rotor D as the simple (map each letter to itself). Offsets enable users to rotate each rotor to come up with custom starting positions. 
 
 ![Alt text](image.png)
 
@@ -14,23 +14,25 @@ Input your message one character at a time using your mouse and the keyboard sho
 
 In this example, the first letter I clicked on was the letter Q.  The diagnostics are shown at the bottom of each rotor and start out right to left then through the reflector and back left to right. In this case, 
 
-1. Q gets mapped to Z in rotor1 
-2. Z is mapped to C in rotor 2 
-3. C is mapped to S in rotor 3
-4. S is mapped to T in the reflector
-5. T is mapped to I in rotor 3
-6. I is mapped to letter E in rotor 2
-7. E is mapped to H in rotor1. 
+1. Q gets mapped to Q in rotor1 
+2. Q is mapped to D in rotor 2 
+3. D is mapped to G in rotor 3
+4. G is mapped to H in the reflector
+5. H is mapped to Y in rotor 3
+6. Y is mapped to W in rotor 2
+7. W is mapped to W in rotor1. 
 
 ![Alt text](image-1.png)
 
-As you click each key the input will be stored in the text box labeled "In" and the ciphered output will be stored in the next box labeled "Out:". In this first example, In = Q and Out = H. Adding more letters will add more to the In and Out text boxes.
+As you click each key the input will be stored in the text box labeled "In" and the ciphered output will be stored in the next box labeled "Out:". In this first example, In = Q and Out = H. Adding more letters will add more to the In and Out text boxes. Adding letters will also increment the offsets so that the cipher continues to change. This makes it harder to decipher. 
 
 Also note that as you input letters the rotor wire diagrams change (aka rotate). This is an important feature of an Enigma machine. 
 
 To Decode the message, write down the Out message somewhere and refresh your browser. Then you can key in each letter of out to get the deciphered text. 
 
-A good example is that MATTHEW gets encoded as FSBKBWN. Notice that the two T's get encoded as different letters and this is the advantage of a rotating cipher over a static cipher. In a standard substitution cipher T would always become a single letter (e.g. F). This variance of letter mappings makes it harder to decode a rotational cipher. 
+A good example is that QWERTY gets encoded as WQZPEX and if you refresh the browser and enter WQZPEX then you'll get back QWERTY. 
+
+
 
 # Problem
 
