@@ -60,7 +60,7 @@ export function Rotor({ config, configLabel, setConfig, setConfigLabel, offset, 
     }
     setConfig(temp_rotor);
 
-    setOffset(e.target.value);
+    setOffset(parseInt(e.target.value));
 
   }
 
