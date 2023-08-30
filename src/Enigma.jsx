@@ -19,25 +19,37 @@ export default function Enigma() {
     let rotor2_curr = rotor2.slice();
     let rotor3_curr = rotor3.slice();
 
+    let rotor1Offset_curr = rotor1_offset;
+    let rotor2Offset_curr = rotor2_offset;
+    let rotor3Offset_curr = rotor3_offset;
+
     //rotate if we need to
     if(inputBuff.length > 0) {
+      console.log("Rotor 1 offset = " + rotor1Offset_curr);
+
       rotor1_curr = rotate_rotor(rotor1);
-      setRotor1Offset((rotor1_offset+1)%26);
+      rotor1Offset_curr = (rotor1Offset_curr + 1)%26;
       setRotor1(rotor1_curr); 
 
-      if(inputBuff.length % 26 == 0){
+      if(rotor1Offset_curr == 0){
         console.log("rotate second rotor");
         rotor2_curr = rotate_rotor(rotor2);
         setRotor2(rotor2_curr);
-        setRotor2Offset((rotor2_offset+1)%26);
+        rotor2Offset_curr = (rotor2Offset_curr+1)%26;
+
+        if(rotor2Offset_curr == 0){
+          rotor3_curr = rotate_rotor(rotor3);
+          setRotor3(rotor3_curr);
+          rotor3Offset_curr = (rotor3Offset_curr+1)%26;
+        }
       }
 
-      if(inputBuff.length % 676 == 0){
-        rotor3_curr = rotate_rotor(rotor3);
-        setRotor3(rotor3_curr);
-        setRotor3Offset((rotor3_offset+1)%26);
-      }
+
     }
+
+    setRotor1Offset(rotor1Offset_curr);
+    setRotor2Offset(rotor2Offset_curr);
+    setRotor3Offset(rotor3Offset_curr);
 
     //remember to make the data updates immutable. 
     const nextRotorsIO1 = rotorIO1.slice();
