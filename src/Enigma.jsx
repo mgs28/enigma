@@ -12,12 +12,12 @@ import { letters_index, qwerty, RotorA, RotorB, RotorC, RotorD, RotorReflector} 
 export default function Enigma() {
 
   function handleLetterClick(i){
-
     setInput(i);
 
     let rotor1_curr = JSON.parse(JSON.stringify(rotor1));
     let rotor2_curr = JSON.parse(JSON.stringify(rotor2));
     let rotor3_curr = JSON.parse(JSON.stringify(rotor3));
+    let reflector_curr = JSON.parse(JSON.stringify(reflector));
 
     //rotate if we need to
     if(inputBuff.length > 0) {
@@ -39,49 +39,43 @@ export default function Enigma() {
       }
     }
 
-    setRotor1(rotor1_curr); 
-    setRotor2(rotor2_curr); 
-    setRotor3(rotor3_curr); 
-
     //remember to make the data updates immutable. 
-    const nextRotorsIO1 = rotorIO1.slice();
-    const nextRotorsIO2 = rotorIO2.slice();
-    const nextRotorsIO3 = rotorIO1.slice();
-    const nextReflectorIO = reflectorIO.slice();
     const input_idx = character_to_idx(i);
 
-    nextRotorsIO1[0] = input_idx;
-    nextRotorsIO1[1] = rotor1_curr.cipher[nextRotorsIO1[0]] ;
+    rotor1_curr.first_in = input_idx;
+    rotor1_curr.first_out = rotor1_curr.cipher[rotor1_curr.first_in] ;
 
-    nextRotorsIO2[0] = nextRotorsIO1[1]; 
-    nextRotorsIO2[1] = rotor2_curr.cipher[nextRotorsIO2[0]];
+    rotor2_curr.first_in = rotor1_curr.first_out;
+    rotor2_curr.first_out = rotor2_curr.cipher[rotor2_curr.first_in] ;
 
-    nextRotorsIO3[0] = nextRotorsIO2[1]; 
-    nextRotorsIO3[1] = rotor3_curr.cipher[nextRotorsIO3[0]];
+    rotor3_curr.first_in = rotor2_curr.first_out;
+    rotor3_curr.first_out = rotor3_curr.cipher[rotor3_curr.first_in] ;
 
     //Reflector
-    nextReflectorIO[0] = nextRotorsIO3[1];
-    nextReflectorIO[1] = reflector.cipher[nextReflectorIO[0]];
-   
-    nextRotorsIO3[2] = nextReflectorIO[1];
-    nextRotorsIO3[3] = inverse_cipher(nextRotorsIO3[2],rotor3_curr.cipher);
+    reflector_curr.in = rotor3_curr.first_out;
+    reflector_curr.out = reflector_curr.cipher[reflector_curr.in];
 
-    nextRotorsIO2[2] = nextRotorsIO3[3];
-    nextRotorsIO2[3] = inverse_cipher(nextRotorsIO2[2],rotor2_curr.cipher);
+    rotor3_curr.second_in = reflector_curr.out;
+    rotor3_curr.second_out = inverse_cipher(rotor3_curr.second_in,rotor3_curr.cipher);
 
-    nextRotorsIO1[2] = nextRotorsIO2[3];
-    nextRotorsIO1[3] = inverse_cipher(nextRotorsIO1[2],rotor1_curr.cipher);
+    rotor2_curr.second_in = rotor3_curr.second_out;
+    rotor2_curr.second_out = inverse_cipher(rotor2_curr.second_in,rotor2_curr.cipher);
 
-    setRotorIO1(nextRotorsIO1);
-    setRotorIO2(nextRotorsIO2);
-    setRotorIO3(nextRotorsIO3);
-    setReflectorIO(nextReflectorIO);
+    rotor1_curr.second_in = rotor2_curr.second_out;
+    rotor1_curr.second_out = inverse_cipher(rotor1_curr.second_in,rotor1_curr.cipher);
 
     //add to buffers
     const inputBuff_copy = inputBuff.slice();
     const outputBuff_copy = outputBuff.slice(); 
     setInputBuff(inputBuff_copy + i);
-    setOutputBuff(outputBuff_copy + index_to_character(nextRotorsIO1[3]));
+    setOutputBuff(outputBuff_copy + index_to_character(rotor1_curr.second_out));
+
+    setRotor1(rotor1_curr); 
+    setRotor2(rotor2_curr); 
+    setRotor3(rotor3_curr); 
+    setReflector(reflector_curr); 
+
+//WQZPEX
   }
     
   //
@@ -89,30 +83,45 @@ export default function Enigma() {
   // Rotors are defined as integer arrays so that [5,3,...] maps A to F, B to D
   // 
 
-
   const [rotor1, setRotor1] = useState({
     name: "rotor1", 
     label: "D",
     offset: 0,
-    cipher: RotorD
+    cipher: RotorD, 
+    first_in: null,
+    first_out: null, 
+    second_in: null,
+    second_out: null
   });
+
   const [rotor2, setRotor2] = useState({
     name: "rotor2", 
     label: "B",
     offset: 0,
-    cipher: RotorB
+    cipher: RotorB,
+    first_in: null,
+    first_out: null, 
+    second_in: null,
+    second_out: null
   });
   const [rotor3, setRotor3] = useState({
     name: "rotor3", 
     label: "C",
     offset: 0,
-    cipher: RotorC
+    cipher: RotorC,
+    first_in: null,
+    first_out: null, 
+    second_in: null,
+    second_out: null
   });
+  
   const [reflector, setReflector] = useState({
     name: "reflector", 
     label: "",
     offset: 0,
-    cipher: RotorReflector
+    cipher: RotorReflector,
+    in: null,
+    out: null
   });
 
   //Keep track of the input from the keypad
@@ -122,28 +131,21 @@ export default function Enigma() {
   const [inputBuff, setInputBuff] = useState('');
   const [outputBuff, setOutputBuff] = useState('');
 
-  //record the input and output of each rotor. There are two pairs to keep track of (those going left and going right).
-  //IO are (R->L Input, R->L Output, L->R Input, L->R Output)
-  const [rotorIO1, setRotorIO1] = useState([null, null, null, null]);
-  const [rotorIO2, setRotorIO2] = useState([null, null, null, null]);
-  const [rotorIO3, setRotorIO3] = useState([null, null, null, null]);
-  const [reflectorIO, setReflectorIO] = useState([null, null]);
-
   return (
         <div> 
           <div className="enigma_machine">  
             <div>
-                <Reflector config={reflector} IO={reflectorIO} name="reflector"/>
-                <Rotor config={rotor3}  setConfig={setRotor3} IO={rotorIO3}/>
-                <Rotor config={rotor2}  setConfig={setRotor2} IO={rotorIO2}/>
-                <Rotor config={rotor1}  setConfig={setRotor1} IO={rotorIO1}/>
+                <Reflector config={reflector} name="reflector"/>
+                <Rotor config={rotor3} setConfig={setRotor3} />
+                <Rotor config={rotor2} setConfig={setRotor2} />
+                <Rotor config={rotor1} setConfig={setRotor1} />
             </div>
             <div className="rotorClear"> </div>
 
             <div className="io">
               <div className="io">
                 Output:    
-                <button className="output">{index_to_character(rotorIO1[3])} </button>
+                <button className="output">{index_to_character(rotor1.second_out)} </button>
 
               </div>
               <br/>

@@ -3,11 +3,11 @@ import { index_to_character, rotate_rotor } from './utilities';
 
 import { RotorA, RotorB, RotorC, RotorD, RotorReflector} from './constants';
 
-export function Rotor({ config, setConfig, IO }) {
+export function Rotor({ config, setConfig}) {
 
   const listwires = config.cipher.map((number, i) => {
-    let isActiveLtoR = (number == IO[1]);
-    let isActiveRtoL = (number == IO[2]);
+    let isActiveLtoR = (number == config.first_out);
+    let isActiveRtoL = (number == config.second_in);
     
     let color = "#ddd";
     let stroke = 2;
@@ -194,12 +194,12 @@ export function Rotor({ config, setConfig, IO }) {
 
 
         {/* <!-- mapping: always ordered left, right, arrow -->  */}
-        <text x="25" y="290">{index_to_character(IO[1])}</text>
-        <text x="85" y="290">{index_to_character(IO[0])}</text>
+        <text x="25" y="290">{index_to_character(config.first_out)}</text>
+        <text x="85" y="290">{index_to_character(config.first_in)}</text>
         <line x2="50" y2="285" x1="80" y1="285" stroke="#ef8905" strokeWidth="2  " markerEnd="url(#arrowhead)" />
 
-        <text x="25" y="320">{index_to_character(IO[2])}</text>
-        <text x="85" y="320">{index_to_character(IO[3])}</text>
+        <text x="25" y="320">{index_to_character(config.second_in)}</text>
+        <text x="85" y="320">{index_to_character(config.second_out)}</text>
         <line x1="50" y1="315" x2="80" y2="315" stroke="#f00" strokeWidth="2  " markerEnd="url(#arrowhead)" />
 
 
