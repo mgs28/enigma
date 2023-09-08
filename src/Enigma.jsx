@@ -21,7 +21,7 @@ export default function Enigma() {
 
     //rotate if we need to
     if(inputBuff.length > 0) {
-      console.log("Rotor 1 offset = " + rotor1_curr.offset);
+      //console.log("Rotor 1 offset = " + rotor1_curr.offset);
       rotor1_curr.cipher = rotate_rotor(rotor1_curr.cipher);
       rotor1_curr.offset = (rotor1_curr.offset + 1)%26;
       
