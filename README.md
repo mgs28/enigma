@@ -135,13 +135,13 @@ Alright, it's the fun part, let's cipher some text! This is really three major o
 
 Heres the code snippet for Rotor1  
 
-    nextRotorsIO1[0] = input_idx;
-    nextRotorsIO1[1] = rotor1[nextRotorsIO1[0]];
+    rotor1_curr.first_in = input_idx;
+    rotor1_curr.first_out = rotor1_curr.cipher[rotor1_curr.first_in] ;
 
     ...
 
-    nextRotorsIO1[2] = nextRotorsIO2[3];
-    nextRotorsIO1[3] = inverse_cipher(nextRotorsIO1[2],rotor1);
+    rotor1_curr.second_in = rotor2_curr.second_out;
+    rotor1_curr.second_out = inverse_cipher(rotor1_curr.second_in,rotor1_curr.cipher);
 
 I also added some color highlighting to make the rotors pop from left to right. 
 
