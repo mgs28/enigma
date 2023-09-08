@@ -112,15 +112,15 @@ Onclick events are handled the usual way to highlight the key and start the enco
 
 ## Rotors
 
-Rotors are based on shuffles of integer arrays where A is mapped to 0 and Z is mapped to 25. 
+Rotors are based on shuffles of integer arrays where A = 0, B=1, C=2, ..., Z=25. In the very simple example below, we use an identify vector so that A is mapped to A and Z is mapped to Z. 
 
-    const letters = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25];
+    const rotor1 = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25];
 
-This allows us to quickly look up mappings from right to left (the initial way through the rotors) as we can use letters[0] to get the mapping for letter A. However, on the return trip we need to find the value within the list then map backwards. We could keep two of these arrays to help with lookups. 
+We can also do more complicated ciphers. The following rotor1 cipher maps A to E (0 to 4) because the 0th index in the array holds the integer 4. 
 
     const rotor1 = [4,17,19,8,14,15,2,6,0,16,10,5,20,11,9,7,1,3,13,25,18,22,24,23,12,21]
 
-In the above example, rotor1 maps A to E (0 to 4) but on return we need to look up 4 to get 0. This can be easily done at initialization to allow efficient lookups during the ciphering process. 
+We also need to quickly look up the inverses. In the above example, rotor1 maps A to E (0 to 4) but on return we need to look up 4 to get 0. This can be done with an inverse array (below) or a simple utility function, utilities.inverse_cipher(c,r), which looks up the inverse of letter c in rotor r. 
 
     const rotor1_inv = [8,16,6,17,0,11,7,15,3,14,10,13,24,18,4,5,9,1,20,2,12,25,21,23,22,19]
 
