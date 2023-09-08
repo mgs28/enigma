@@ -75,7 +75,6 @@ export default function Enigma() {
     setRotor3(rotor3_curr); 
     setReflector(reflector_curr); 
 
-//WQZPEX
   }
     
   //
@@ -114,7 +113,7 @@ export default function Enigma() {
     second_in: null,
     second_out: null
   });
-  
+
   const [reflector, setReflector] = useState({
     name: "reflector", 
     label: "",
