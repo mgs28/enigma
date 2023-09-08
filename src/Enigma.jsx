@@ -15,41 +15,33 @@ export default function Enigma() {
 
     setInput(i);
 
-    let rotor1_curr = rotor1.slice();
-    let rotor2_curr = rotor2.slice();
-    let rotor3_curr = rotor3.slice();
-
-    let rotor1Offset_curr = rotor1_offset;
-    let rotor2Offset_curr = rotor2_offset;
-    let rotor3Offset_curr = rotor3_offset;
+    let rotor1_curr = JSON.parse(JSON.stringify(rotor1));
+    let rotor2_curr = JSON.parse(JSON.stringify(rotor2));
+    let rotor3_curr = JSON.parse(JSON.stringify(rotor3));
 
     //rotate if we need to
     if(inputBuff.length > 0) {
-      console.log("Rotor 1 offset = " + rotor1Offset_curr);
+      console.log("Rotor 1 offset = " + rotor1_curr.offset);
+      rotor1_curr.cipher = rotate_rotor(rotor1_curr.cipher);
+      rotor1_curr.offset = (rotor1_curr.offset + 1)%26;
+      
+      if(rotor1_curr.offset == 0){
+        //console.log("rotate second rotor");
+        rotor2_curr.cipher = rotate_rotor(rotor2_curr.cipher);
+        rotor2_curr.offset = (rotor2_curr.offset+1)%26;
 
-      rotor1_curr = rotate_rotor(rotor1);
-      rotor1Offset_curr = (rotor1Offset_curr + 1)%26;
-      setRotor1(rotor1_curr); 
-
-      if(rotor1Offset_curr == 0){
-        console.log("rotate second rotor");
-        rotor2_curr = rotate_rotor(rotor2);
-        setRotor2(rotor2_curr);
-        rotor2Offset_curr = (rotor2Offset_curr+1)%26;
-
-        if(rotor2Offset_curr == 0){
-          rotor3_curr = rotate_rotor(rotor3);
-          setRotor3(rotor3_curr);
-          rotor3Offset_curr = (rotor3Offset_curr+1)%26;
+        if(rotor2_curr.offset == 0){
+          //console.log("rotate third rotor");
+          rotor3_curr.cipher = rotate_rotor(rotor3_curr.cipher);
+          rotor3_curr.offset = (rotor3_curr.offset+1)%26;
+          
         }
       }
-
-
     }
 
-    setRotor1Offset(rotor1Offset_curr);
-    setRotor2Offset(rotor2Offset_curr);
-    setRotor3Offset(rotor3Offset_curr);
+    setRotor1(rotor1_curr); 
+    setRotor2(rotor2_curr); 
+    setRotor3(rotor3_curr); 
 
     //remember to make the data updates immutable. 
     const nextRotorsIO1 = rotorIO1.slice();
@@ -59,26 +51,26 @@ export default function Enigma() {
     const input_idx = character_to_idx(i);
 
     nextRotorsIO1[0] = input_idx;
-    nextRotorsIO1[1] = rotor1_curr[nextRotorsIO1[0]] ;
+    nextRotorsIO1[1] = rotor1_curr.cipher[nextRotorsIO1[0]] ;
 
     nextRotorsIO2[0] = nextRotorsIO1[1]; 
-    nextRotorsIO2[1] = rotor2_curr[nextRotorsIO2[0]];
+    nextRotorsIO2[1] = rotor2_curr.cipher[nextRotorsIO2[0]];
 
     nextRotorsIO3[0] = nextRotorsIO2[1]; 
-    nextRotorsIO3[1] = rotor3_curr[nextRotorsIO3[0]];
+    nextRotorsIO3[1] = rotor3_curr.cipher[nextRotorsIO3[0]];
 
     //Reflector
     nextReflectorIO[0] = nextRotorsIO3[1];
-    nextReflectorIO[1] = reflector[nextReflectorIO[0]];
+    nextReflectorIO[1] = reflector.cipher[nextReflectorIO[0]];
    
     nextRotorsIO3[2] = nextReflectorIO[1];
-    nextRotorsIO3[3] = inverse_cipher(nextRotorsIO3[2],rotor3_curr);
+    nextRotorsIO3[3] = inverse_cipher(nextRotorsIO3[2],rotor3_curr.cipher);
 
     nextRotorsIO2[2] = nextRotorsIO3[3];
-    nextRotorsIO2[3] = inverse_cipher(nextRotorsIO2[2],rotor2_curr);
+    nextRotorsIO2[3] = inverse_cipher(nextRotorsIO2[2],rotor2_curr.cipher);
 
     nextRotorsIO1[2] = nextRotorsIO2[3];
-    nextRotorsIO1[3] = inverse_cipher(nextRotorsIO1[2],rotor1_curr);
+    nextRotorsIO1[3] = inverse_cipher(nextRotorsIO1[2],rotor1_curr.cipher);
 
     setRotorIO1(nextRotorsIO1);
     setRotorIO2(nextRotorsIO2);
@@ -96,20 +88,32 @@ export default function Enigma() {
   // Setting up the default Rotors and Reflector
   // Rotors are defined as integer arrays so that [5,3,...] maps A to F, B to D
   // 
-  const [rotor1_label, setRotor1Label] = useState('D');
-  const [rotor2_label, setRotor2Label] = useState('B');
-  const [rotor3_label, setRotor3Label] = useState('C');
-  
-  const [rotor1_offset, setRotor1Offset] = useState(0);
-  const [rotor2_offset, setRotor2Offset] = useState(0);
-  const [rotor3_offset, setRotor3Offset] = useState(0);
 
 
-  const [rotor1, setRotor1] = useState(RotorD);
-  const [rotor2, setRotor2] = useState(RotorB);
-  const [rotor3, setRotor3] = useState(RotorC);
-  const [reflector, setReflector] = useState(RotorReflector);
-
+  const [rotor1, setRotor1] = useState({
+    name: "rotor1", 
+    label: "D",
+    offset: 0,
+    cipher: RotorD
+  });
+  const [rotor2, setRotor2] = useState({
+    name: "rotor2", 
+    label: "B",
+    offset: 0,
+    cipher: RotorB
+  });
+  const [rotor3, setRotor3] = useState({
+    name: "rotor3", 
+    label: "C",
+    offset: 0,
+    cipher: RotorC
+  });
+  const [reflector, setReflector] = useState({
+    name: "reflector", 
+    label: "",
+    offset: 0,
+    cipher: RotorReflector
+  });
 
   //Keep track of the input from the keypad
   const [input, setInput] = useState(null);
@@ -130,9 +134,9 @@ export default function Enigma() {
           <div className="enigma_machine">  
             <div>
                 <Reflector config={reflector} IO={reflectorIO} name="reflector"/>
-                <Rotor config={rotor3} configLabel={rotor3_label} setConfig={setRotor3} setConfigLabel={setRotor3Label} offset={rotor3_offset} setOffset={setRotor3Offset} IO={rotorIO3} name="rotor3"/>
-                <Rotor config={rotor2} configLabel={rotor2_label} setConfig={setRotor2} setConfigLabel={setRotor2Label} offset={rotor2_offset} setOffset={setRotor2Offset} IO={rotorIO2} name="rotor2"/>
-                <Rotor config={rotor1} configLabel={rotor1_label} setConfig={setRotor1} setConfigLabel={setRotor1Label} offset={rotor1_offset} setOffset={setRotor1Offset} IO={rotorIO1} name="rotor1"/>
+                <Rotor config={rotor3}  setConfig={setRotor3} IO={rotorIO3}/>
+                <Rotor config={rotor2}  setConfig={setRotor2} IO={rotorIO2}/>
+                <Rotor config={rotor1}  setConfig={setRotor1} IO={rotorIO1}/>
             </div>
             <div className="rotorClear"> </div>
 
@@ -153,8 +157,6 @@ export default function Enigma() {
             <IOBuffers inputbuff={inputBuff} outputbuff={outputBuff} />
           </div>
         
-          
-
       </div> 
 
       );

@@ -3,9 +3,9 @@ import { index_to_character, rotate_rotor } from './utilities';
 
 import { RotorA, RotorB, RotorC, RotorD, RotorReflector} from './constants';
 
-export function Rotor({ config, configLabel, setConfig, setConfigLabel, offset, setOffset, IO, name }) {
+export function Rotor({ config, setConfig, IO }) {
 
-  const listwires = config.map((number, i) => {
+  const listwires = config.cipher.map((number, i) => {
     let isActiveLtoR = (number == IO[1]);
     let isActiveRtoL = (number == IO[2]);
     
@@ -36,46 +36,51 @@ export function Rotor({ config, configLabel, setConfig, setConfigLabel, offset, 
   }
 
   function handleRotorChange(v){
-    setConfigLabel(v);
+    let config_temp = JSON.parse(JSON.stringify(config));
+
+    config_temp.label = v; 
     
     //need to also rotate it by the right amount
-    let rotations = offset;
-    let temp_rotor = lookupRotor(v);
+    let rotations = config_temp.offset;
+    let cipher_temp = lookupRotor(v);
     while(rotations > 0){
-      temp_rotor = rotate_rotor(temp_rotor);
+      cipher_temp = rotate_rotor(cipher_temp);
       rotations--;
     }
-    setConfig(temp_rotor);
+    config_temp.cipher = cipher_temp;
 
+    setConfig(config_temp);
   }
 
   function handleOffsetChange(e){
+    let config_temp = JSON.parse(JSON.stringify(config));
 
     //just start from scratch and rotate the rotor that many times
-    let rotations = e.target.value;
-    let temp_rotor = lookupRotor(configLabel);
+    config_temp.offset = parseInt(e.target.value);
+    
+    let rotations = config_temp.offset;
+    let cipher_temp = lookupRotor(config_temp.label);
     while(rotations > 0){
-      temp_rotor = rotate_rotor(temp_rotor);
+      cipher_temp = rotate_rotor(cipher_temp);
       rotations--;
     }
-    setConfig(temp_rotor);
+    config_temp.cipher = cipher_temp;
 
-    setOffset(parseInt(e.target.value));
-
+    setConfig(config_temp);
   }
 
   return (
     <div className="rotorDiv">
         <div className="rotorConf">
           <form >
-            <select value={configLabel} onChange={e => handleRotorChange(e.target.value)}  >
+            <select value={config.label} onChange={e => handleRotorChange(e.target.value)}  >
                 <option value="A">A</option>
                 <option value="B">B</option>
                 <option value="C">C</option>
                 <option value="D">D</option>
             </select>
 
-            <select value={offset} onChange={e=> handleOffsetChange(e)} >
+            <select value={config.offset} onChange={e=> handleOffsetChange(e)} >
               <option value="0">0</option>
               <option value="1">1</option>
               <option value="2">2</option>

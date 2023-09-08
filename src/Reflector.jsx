@@ -1,9 +1,9 @@
 import React from 'react';
 import { index_to_character } from './utilities';
 
-export function Reflector({ config, IO, name }) {
+export function Reflector({ config, IO }) {
 
-  const listwires = config.map((number, i) => {
+  const listwires = config.cipher.map((number, i) => {
     let stroke = 2;
     let color = "#aaa";
     if (number == IO[1]) {
