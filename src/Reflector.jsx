@@ -1,12 +1,12 @@
 import React from 'react';
 import { index_to_character } from './utilities';
 
-export function Reflector({ config, IO }) {
+export function Reflector({ config }) {
 
   const listwires = config.cipher.map((number, i) => {
     let stroke = 2;
     let color = "#aaa";
-    if (number == IO[1]) {
+    if (number== config.in || number == config.out) {
       color = "#ef8905";
       stroke = 3;
     }
@@ -73,11 +73,10 @@ export function Reflector({ config, IO }) {
           {listwires}
         </g>
 
-        <text x="85" y="320">{index_to_character(IO[1])}</text>
-        <text x="85" y="290">{index_to_character(IO[0])}</text>
+        <text x="85" y="320">{index_to_character(config.out)}</text>
+        <text x="85" y="290">{index_to_character(config.in)}</text>
         <polyline points="80,285, 50, 285, 50,320, 80, 320" stroke="#ef8905" fill="none" strokeWidth="2  " markerEnd="url(#arrowhead)" />
-        <polyline points={"100, " + (7 + (IO[1] * 10)) + ", " + (80 - (2 * IO[0])) + "," + (7 + (IO[1] * 10)) + ", " + (80 - (2 * IO[0])) + "," + (7 + (IO[0] * 10)) + ", 100," + (7 + (IO[0] * 10))} fill="none" stroke="#ef8905" strokeWidth="2" />
-
+ 
       </g>
     </svg>
     </div>
